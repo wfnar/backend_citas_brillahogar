@@ -3,12 +3,14 @@ package co.com.sena.citasbrillahogar.controller;
 
 import co.com.sena.citasbrillahogar.entity.Cliente;
 import co.com.sena.citasbrillahogar.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -18,7 +20,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente crear(@RequestBody Cliente cliente) {
+    public Cliente crear(@Valid @RequestBody Cliente cliente) {
         return clienteService.crearCliente(cliente);
     }
 
@@ -34,7 +36,7 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     public Cliente actualizar(@PathVariable Long id,
-                              @RequestBody Cliente cliente) {
+                              @Valid @RequestBody Cliente cliente) {
         return clienteService.actualizarCliente(id, cliente);
     }
 

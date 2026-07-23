@@ -17,6 +17,15 @@ public class ClienteService {
     }
 
     public Cliente crearCliente(Cliente cliente) {
+
+        if (clienteRepository.existsByCorreo(cliente.getCorreo())) {
+            throw new RuntimeException("El correo ya se encuentra registrado.");
+        }
+
+        if (clienteRepository.existsByCedula(cliente.getCedula())) {
+            throw new RuntimeException("La cédula ya se encuentra registrada.");
+        }
+
         return clienteRepository.save(cliente);
     }
 
@@ -38,13 +47,21 @@ public class ClienteService {
 
         existente.setNombre(cliente.getNombre());
         existente.setApellido(cliente.getApellido());
-        existente.setCorreo(cliente.getCorreo());
+        existente.setDireccion(cliente.getDireccion());
+        existente.setCedula(cliente.getCedula());
+        existente.setFechaNacimiento(cliente.getFechaNacimiento());
         existente.setTelefono(cliente.getTelefono());
+        existente.setCorreo(cliente.getCorreo());
+        existente.setPassword(cliente.getPassword());
 
         return clienteRepository.save(existente);
     }
 
     public void eliminarCliente(Long id) {
-        clienteRepository.deleteById(id);
+
+        if (clienteRepository.existsById(id)) {
+            clienteRepository.deleteById(id);
+        }
+
     }
 }
